@@ -14,6 +14,12 @@ class ChatbotView(generic.View):
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
 
+    def post_facebook_message(fbid, recevied_message):           
+        post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=<page-access-token>' 
+        response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
+        status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+        pprint(status.json())
+
     # Post function to handle Facebook messages
     def post(self, request, *args, **kwargs):
         # Converts the text payload into a python dictionary
@@ -31,8 +37,3 @@ class ChatbotView(generic.View):
                     post_facebook_message(message['sender']['id'], message['message']['text'])    
         return HttpResponse()
 
-def post_facebook_message(fbid, recevied_message):           
-    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=<page-access-token>' 
-    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
-    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
-    pprint(status.json())
