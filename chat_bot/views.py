@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 # Create your views here.
 
 def post_facebook_message(fbid, recevied_message):           
-    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAanWrIZCEwgBANlcdmq2pEvWx98xKS2ZBcVhZBZBlvfdutqtMwZB59hmmmeBYcGhpAz2IHjo1VBZC8CxSI8y6TWZBt68WZBdYEckl0gNXPwh7RdJYly2VuSgyrStwXqzZBrZBEGBh3CuRaZAC7ENwiS3w3VmP4YvULpy27OSZAKUf596AZDZD' 
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAanWrIZCEwgBANdRLjtYnKp3AUhbfnX5FT7v4INQ7DfZCymQrG20k2A1EZCvNYqS4pF7HwLMnqh3ZAsGgDMoD7eNRmnJZAXfFW3AqwTKZBsPzEZAFjTlNlZCSmVrTMDoGWALu9bu1ApcFiQ6iJox9cwAypskeTOnNKO2HpmoZCPwfAZDZD' 
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
