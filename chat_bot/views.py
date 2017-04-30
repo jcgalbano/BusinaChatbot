@@ -1,10 +1,11 @@
-import json, requests
+import json, requests, random, re
 from pprint import pprint
 
 from django.views import generic
 from django.shortcuts import render
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 # Create your views here.
 
 def post_facebook_message(fbid, recevied_message):           
