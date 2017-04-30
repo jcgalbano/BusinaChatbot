@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def post_facebook_message(fbid, recevied_message):           
-    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAanWrIZCEwgBAHswFhLuZCrvp3Qp9UxA7GqbKG2p59Oq7LdNpxKrDpz4yWZAuhXNquL9WD40ZBXcvltzLgahBNOFPYVc8LGVXPHalTtea0XRDSgEE9x9S5GDV3cwsNGqEozfpNoXH2ksAMkm9otEAimGHTql7lIZBUyIeiNS0wZDZD' 
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=%s'%EAAanWrIZCEwgBAGd9quU30dsJX0fPkT99Y084OSrArwREZAprhjeSgw8ToxkvO2eHjOp3O57ycZA1CZBi6Qmm2OrKtdARfzrEsdRufFRKyNHSZAlVQHTTtM5Fd2eRYZC3u2nM01nGnep9JWNdRXy1M48pmDgQjHvNmgAVe3d99jAZDZD
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
