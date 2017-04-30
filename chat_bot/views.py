@@ -9,3 +9,26 @@ class ChatbotView(generic.View):
             return HttpResponse(self.request.GET['hub.challenge'])
         else:
             return HttpResponse('Error, invalid token')
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return generic.View.dispatch(self, request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+
+        incoming_message = json.loads(self.request.body.decode('utf-8'))
+
+        for entry in incoming_message['entry']:
+            for message in entry['messaging']:
+
+                if 'message' in message:
+                    pprint(message)
+                    post_facebook_message(message['sender']['id'], message['message']['text'])
+
+        return HttpResponse()
+
+def post_facebook_message(fbid, recevied_message):           
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=<page-access-token>' 
+    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+    pprint(status.json())
