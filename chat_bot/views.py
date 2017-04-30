@@ -1,7 +1,17 @@
+import json, requests
+from pprint import pprint
+
 from django.views import generic
 from django.shortcuts import render
 from django.http.response import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
+
+def post_facebook_message(fbid, recevied_message):           
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=<page-access-token>' 
+    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
+    pprint(status.json())
 
 class ChatbotView(generic.View):
     def get(self, request, *args, **kwargs):
@@ -14,11 +24,7 @@ class ChatbotView(generic.View):
     def dispatch(self, request, *args, **kwargs):
         return generic.View.dispatch(self, request, *args, **kwargs)
 
-    def post_facebook_message(fbid, recevied_message):           
-        post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=<page-access-token>' 
-        response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
-        status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
-        pprint(status.json())
+
 
     # Post function to handle Facebook messages
     def post(self, request, *args, **kwargs):
