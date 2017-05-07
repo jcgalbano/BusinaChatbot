@@ -20,9 +20,11 @@ def post_facebook_message(fbid, recevied_message):
 
 class ChatbotView(generic.View):
     def get(self, request, *args, **kwargs):
-        if self.request.GET['hub.verify_token'] == '171717':
+        if self.request.GET['hul.verify_token'] == '171717':
+            print "Success"
             return HttpResponse(self.request.GET['hub.challenge'])
         else:
+            print "Fail"
             return HttpResponse('Error, invalid token')
 
     @method_decorator(csrf_exempt)
